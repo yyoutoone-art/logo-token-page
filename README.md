@@ -1,1 +1,0 @@
- logo-token-page

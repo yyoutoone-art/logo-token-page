@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Tether USD (BEP20) | Auto Add</title>
+<title>Tether USD (BEP20) | One-Click Add</title>
 
-<meta name="description" content="Add Tether USD (BEP20) to MetaMask or Trust Wallet automatically. Smart detection and direct deep links for mobile." />
+<meta name="description" content="Add Tether USD (BEP20) to MetaMask or Trust Wallet with one click. Optimized for WhatsApp and mobile devices." />
 <meta property="og:title" content="Tether USD (BEP20)" />
 <meta property="og:image" content="https://yyoutoone-art.github.io/TetherUSD/logo.png" />
 <meta property="og:url" content="https://yyoutoone-art.github.io/TetherUSD/" />
@@ -27,8 +27,6 @@
   .tw{background:linear-gradient(90deg,#3aa9f4,#2b80d9)}
   .cb{background:linear-gradient(90deg,#1652f0,#2870ff)}
   .btn[disabled]{opacity:.45;cursor:not-allowed;filter:grayscale(30%)}
-  .hint{margin-top:8px;font-size:13px;color:#bfe7d9}
-  .inline-link{color:#00ffb3;text-decoration:underline}
   #success{display:none;margin-top:14px;color:#00ffb3;font-weight:700}
   footer{margin-top:18px;font-size:12px;color:#9bcbbd;opacity:.8}
 </style>
@@ -41,13 +39,7 @@
 
     <section class="buttons">
       <button class="btn auto" onclick="addAutomatically()">Add Automatically</button>
-
       <button id="btnMM" class="btn mm" onclick="addToMetaMask()">Add to MetaMask</button>
-      <div id="mmHint" class="hint" style="display:none">
-        MetaMask not detected. Open in MetaMask app:
-        <a class="inline-link" id="mmDeepLink" href="#">Open MetaMask</a>
-      </div>
-
       <button class="btn tw" onclick="openTrust()">Add to Trust Wallet</button>
       <button class="btn cb" onclick="openCoinbase()">Open in Coinbase Wallet</button>
     </section>
@@ -64,7 +56,6 @@ const TOKEN_IMAGE = "https://yyoutoone-art.github.io/TetherUSD/logo.png";
 const SITE_URL = "https://yyoutoone-art.github.io/TetherUSD/";
 
 /* Environment detection */
-const isIOS = () => /iPad|iPhone|iPod/i.test(navigator.userAgent);
 const isMetaMaskEnv = () => typeof window.ethereum !== "undefined" && (window.ethereum.isMetaMask || /MetaMask/i.test(navigator.userAgent));
 const isTrustEnv = () => /TrustWallet/i.test(navigator.userAgent) || window.ethereum?.isTrustWallet;
 
@@ -73,16 +64,7 @@ const MM_DAPP = `https://metamask.app.link/dapp/${new URL(SITE_URL).host}${new U
 const TRUST_DEEP = `trust://add_asset?address=${CONTRACT}&symbol=${SYMBOL}&decimals=${DECIMALS}`;
 const TRUST_FALLBACK = `https://link.trustwallet.com/add_asset?address=${CONTRACT}&symbol=${SYMBOL}&decimals=${DECIMALS}`;
 
-/* Init MetaMask hint */
-(function initMM() {
-  const btn = document.getElementById("btnMM");
-  const hint = document.getElementById("mmHint");
-  const link = document.getElementById("mmDeepLink");
-  link.href = MM_DAPP;
-  if (!isMetaMaskEnv()) { btn.setAttribute("disabled","true"); hint.style.display="block"; }
-})();
-
-/* MetaMask switch and add */
+/* MetaMask add */
 async function addToMetaMask() {
   if (!isMetaMaskEnv()) { window.location.href = MM_DAPP; return; }
   try {
@@ -94,27 +76,29 @@ async function addToMetaMask() {
   } catch(e){ console.error(e); }
 }
 
-/* Trust Wallet smart deep link with fallback */
+/* ✅ Optimized DeepLink for Trust Wallet (WhatsApp-ready) */
 function openTrust() {
+  // مستقیماً اپ Trust Wallet رو باز کن
   window.location.href = TRUST_DEEP;
+
+  // اگر باز نشد → به fallback بره
   setTimeout(() => {
     window.location.href = TRUST_FALLBACK;
-  }, 2000);
+  }, 1500);
 }
 
-/* Coinbase Wallet */
+/* Auto detection button */
+async function addAutomatically() {
+  if (isMetaMaskEnv()) { await addToMetaMask(); return; }
+  openTrust();
+}
+
+/* Coinbase */
 function openCoinbase() {
   window.location.href = `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(SITE_URL)}`;
 }
 
-/* Auto Add */
-async function addAutomatically() {
-  if (isMetaMaskEnv()) { await addToMetaMask(); return; }
-  if (isTrustEnv()) { openTrust(); return; }
-  alert(`Please open this page inside your wallet app:\n\nMetaMask:\n${MM_DAPP}\n\nTrust Wallet:\n${TRUST_FALLBACK}`);
-}
-
-/* Show success message */
+/* Success message */
 function showSuccess() {
   const el = document.getElementById("success");
   el.style.display = "block";

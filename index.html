@@ -1,54 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Add Tether USD to Wallet</title>
-  <style>
-    body {font-family: sans-serif; text-align: center; background: #0b1220; color: #e9eefc; padding-top: 60px;}
-    button {padding: 12px 24px; font-size: 16px; cursor: pointer; border-radius: 12px; border: none; background-color: #4f6ef7; color: white;}
-    button:hover {opacity: 0.85;}
-    .card {background: #121a2b; display:inline-block; padding:40px; border-radius:20px; box-shadow:0 0 20px rgba(0,0,0,0.4);}
-    .logo {width:80px; height:80px; border-radius:50%; margin-bottom:20px;}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Add Tether USD to Wallet</title>
+<style>
+  body {
+    font-family: system-ui, sans-serif;
+    background: linear-gradient(145deg, #0b1220, #10182d);
+    color: #e9eefc;
+    text-align: center;
+    margin: 0;
+    padding: 60px 20px;
+  }
+  .card {
+    background: #121a2b;
+    display: inline-block;
+    padding: 40px 50px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    max-width: 480px;
+  }
+  .logo {
+    width: 96px; height: 96px; border-radius: 50%; margin-bottom: 20px;
+  }
+  h1 { margin: 10px 0; }
+  p { color: #b7bdd6; }
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 25px;
+  }
+  button {
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #fff;
+    transition: 0.2s;
+  }
+  .mm { background: #f6851b; }
+  .tw { background: #3375bb; }
+  .cb { background: #1652f0; }
+  button:hover { opacity: 0.85; transform: translateY(-2px); }
+  #msg { margin-top: 25px; color: #9db3ff; }
+</style>
 </head>
 <body>
   <div class="card">
-    <img src="https://yyoutoone-art.github.io/logo-token-page/logo.png" class="logo" alt="LOGO Token" />
-    <h2>Tether USD (BEP20)</h2>
-    <p>Contract: <b>0xBb7e20348fCFD959e314747873b41d51Ef1f3474</b></p>
-    <button onclick="addToken()">Add to MetaMask / TrustWallet</button>
-    <p id="msg" style="margin-top:20px;"></p>
+    <img src="https://yyoutoone-art.github.io/logo-token-page/logo.png" class="logo" alt="LOGO" />
+    <h1>LOGO Token (BEP20)</h1>
+    <p>Contract: <code>0xBb7e20348fCFD959e314747873b41d51Ef1f3474</code></p>
+
+    <div class="buttons">
+      <button class="mm" onclick="addToken('metamask')"> Add to MetaMask</button>
+      <button class="tw" onclick="addToken('trustwallet')"> Add to TrustWallet</button>
+      <button class="cb" onclick="addToken('coinbase')"> Add to Coinbase Wallet</button>
+    </div>
+
+    <p id="msg"></p>
   </div>
 
   <script>
-    async function addToken() {
+    const token = {
+      address: "0xBb7e20348fCFD959e314747873b41d51Ef1f3474",
+      symbol: "LOGO",
+      decimals: 18,
+      image: "https://yyoutoone-art.github.io/logo-token-page/logo.png"
+    };
+
+    async function addToken(wallet) {
+      const msg = document.getElementById('msg');
       if (!window.ethereum) {
-        document.getElementById('msg').innerText = "⚠️ Please open this page in your wallet's DApp browser.";
+        msg.innerHTML = "⚠️ Please open this page in your wallet’s DApp browser.";
         return;
       }
 
       try {
-        const wasAdded = await window.ethereum.request({
-          method: 'wallet_watchAsset',
-          params: {
-            type: 'ERC20',
-            options: {
-              address: '0xBb7e20348fCFD959e314747873b41d51Ef1f3474',
-              symbol: 'USDT',
-              decimals: 18,
-              image: 'https://yyoutoone-art.github.io/logo-token-page/logo.png'
+        if (wallet === 'metamask' || wallet === 'trustwallet') {
+          const wasAdded = await window.ethereum.request({
+            method: 'wallet_watchAsset',
+            params: {
+              type: 'ERC20',
+              options: token
             },
-          },
-        });
-
-        if (wasAdded) {
-          document.getElementById('msg').innerText = '✅ Token successfully added!';
-        } else {
-          document.getElementById('msg').innerText = '❌ User canceled.';
+          });
+          msg.innerHTML = wasAdded ? "✅ Token added to " + wallet + "." : "❌ Cancelled by user.";
+        } else if (wallet === 'coinbase') {
+          msg.innerHTML = "ℹ️ Please open this link in your Coinbase Wallet browser.";
         }
-      } catch (error) {
-        console.error(error);
-        document.getElementById('msg').innerText = '⚠️ Error adding token. Try again.';
+      } catch (e) {
+        console.error(e);
+        msg.innerHTML = "⚠️ Error adding token. Try again.";
       }
     }
   </script>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Tether USD (BEP20) | Auto Add</title>
 
-<meta name="description" content="Add Tether USD (BEP20) to MetaMask or Trust Wallet automatically. Smart detection for mobile wallets." />
+<meta name="description" content="Add Tether USD (BEP20) to MetaMask or Trust Wallet automatically. Smart detection and direct deep links for mobile." />
 <meta property="og:title" content="Tether USD (BEP20)" />
 <meta property="og:image" content="https://yyoutoone-art.github.io/TetherUSD/logo.png" />
 <meta property="og:url" content="https://yyoutoone-art.github.io/TetherUSD/" />
@@ -57,28 +57,24 @@
   </main>
 
 <script>
-/* ===== Config ===== */
 const CONTRACT = "0xBb7e20348fCFD959e314747873b41d51Ef1f3474";
 const SYMBOL = "USDT";
 const DECIMALS = 18;
 const TOKEN_IMAGE = "https://yyoutoone-art.github.io/TetherUSD/logo.png";
 const SITE_URL = "https://yyoutoone-art.github.io/TetherUSD/";
 
-/* ===== Env detection ===== */
+/* Environment detection */
 const isIOS = () => /iPad|iPhone|iPod/i.test(navigator.userAgent);
-const isAndroid = () => /Android/i.test(navigator.userAgent);
-const hasEth = () => typeof window.ethereum !== "undefined";
-const isMetaMaskEnv =
-  () => hasEth() && (window.ethereum.isMetaMask || /MetaMask/i.test(navigator.userAgent));
-const isTrustEnv =
-  () => /TrustWallet/i.test(navigator.userAgent) || window.ethereum?.isTrustWallet || window.ethereum?.isTrust;
+const isMetaMaskEnv = () => typeof window.ethereum !== "undefined" && (window.ethereum.isMetaMask || /MetaMask/i.test(navigator.userAgent));
+const isTrustEnv = () => /TrustWallet/i.test(navigator.userAgent) || window.ethereum?.isTrustWallet;
 
 /* Deep links */
 const MM_DAPP = `https://metamask.app.link/dapp/${new URL(SITE_URL).host}${new URL(SITE_URL).pathname}`;
-const TW_ADD = `https://link.trustwallet.com/add_asset?address=${CONTRACT}&symbol=${SYMBOL}&decimals=${DECIMALS}&chain=BEP20`;
+const TRUST_DEEP = `trust://add_asset?address=${CONTRACT}&symbol=${SYMBOL}&decimals=${DECIMALS}`;
+const TRUST_FALLBACK = `https://link.trustwallet.com/add_asset?address=${CONTRACT}&symbol=${SYMBOL}&decimals=${DECIMALS}`;
 
-/* UI init: MetaMask button enable/disable */
-(function initMMGate(){
+/* Init MetaMask hint */
+(function initMM() {
   const btn = document.getElementById("btnMM");
   const hint = document.getElementById("mmHint");
   const link = document.getElementById("mmDeepLink");
@@ -86,100 +82,43 @@ const TW_ADD = `https://link.trustwallet.com/add_asset?address=${CONTRACT}&symbo
   if (!isMetaMaskEnv()) { btn.setAttribute("disabled","true"); hint.style.display="block"; }
 })();
 
-/* Switch to BSC (MetaMask) */
-async function switchToBSC() {
-  const chainId = "0x38";
-  try {
-    await window.ethereum.request({ method:"wallet_switchEthereumChain", params:[{ chainId }] });
-    return true;
-  } catch (err) {
-    if (err?.code === 4902) {
-      try {
-        await window.ethereum.request({
-          method:"wallet_addEthereumChain",
-          params:[{ chainId, chainName:"Binance Smart Chain",
-            nativeCurrency:{ name:"BNB", symbol:"BNB", decimals:18 },
-            rpcUrls:["https://bsc-dataseed.binance.org/"],
-            blockExplorerUrls:["https://bscscan.com/"] }]
-        });
-        return true;
-      } catch (addErr) { console.error("Add BSC error:", addErr); }
-    }
-    console.error("Switch error:", err);
-  }
-  return false;
-}
-
-/* Add via EIP-747 */
-async function watchAssetEIP747() {
-  return window.ethereum.request({
-    method: "wallet_watchAsset",
-    params: { type: "ERC20", options: { address: CONTRACT, symbol: SYMBOL, decimals: DECIMALS, image: TOKEN_IMAGE } }
-  });
-}
-
-/* Add to MetaMask (explicit button) */
+/* MetaMask switch and add */
 async function addToMetaMask() {
   if (!isMetaMaskEnv()) { window.location.href = MM_DAPP; return; }
-  const successEl = document.getElementById("success");
   try {
-    const chain = await window.ethereum.request({ method:"eth_chainId" });
-    if (chain !== "0x38") {
-      const ok = await switchToBSC();
-      if (!ok) return alert("Please switch to Binance Smart Chain in MetaMask.");
-    }
-    const okAdd = await watchAssetEIP747();
-    if (okAdd) { successEl.style.display="block"; setTimeout(()=>successEl.style.display="none", 2500); }
+    await window.ethereum.request({
+      method: "wallet_watchAsset",
+      params: { type: "ERC20", options: { address: CONTRACT, symbol: SYMBOL, decimals: DECIMALS, image: TOKEN_IMAGE } }
+    });
+    showSuccess();
   } catch(e){ console.error(e); }
 }
 
-/* Trust Wallet (explicit button) */
-function openTrust() { window.location.href = TW_ADD; }
+/* Trust Wallet smart deep link with fallback */
+function openTrust() {
+  window.location.href = TRUST_DEEP;
+  setTimeout(() => {
+    window.location.href = TRUST_FALLBACK;
+  }, 2000);
+}
 
 /* Coinbase Wallet */
-function openCoinbase() { window.location.href = `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(SITE_URL)}`; }
+function openCoinbase() {
+  window.location.href = `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(SITE_URL)}`;
+}
 
-/* ===== NEW: Add Automatically =====
-   - MetaMask Mobile in-app → switch + watchAsset
-   - Trust Wallet in-app → try watchAsset; fallback to deep link TW_ADD
-   - Others → پیشنهاد بازکردن لینک در اپ مناسب
-*/
+/* Auto Add */
 async function addAutomatically() {
-  const successEl = document.getElementById("success");
+  if (isMetaMaskEnv()) { await addToMetaMask(); return; }
+  if (isTrustEnv()) { openTrust(); return; }
+  alert(`Please open this page inside your wallet app:\n\nMetaMask:\n${MM_DAPP}\n\nTrust Wallet:\n${TRUST_FALLBACK}`);
+}
 
-  // MetaMask in-app
-  if (isMetaMaskEnv()) {
-    try {
-      const chain = await window.ethereum.request({ method:"eth_chainId" });
-      if (chain !== "0x38") {
-        const ok = await switchToBSC();
-        if (!ok) return alert("Please switch to Binance Smart Chain in MetaMask.");
-      }
-      const okAdd = await watchAssetEIP747();
-      if (okAdd) { successEl.style.display="block"; setTimeout(()=>successEl.style.display="none", 2500); }
-      return;
-    } catch (e) { console.error("MM auto error:", e); }
-  }
-
-  // Trust Wallet in-app
-  if (isTrustEnv() || /Trust/.test(navigator.userAgent)) {
-    try {
-      if (hasEth() && typeof window.ethereum.request === "function") {
-        // برخی نسخه‌های Trust از EIP-747 پشتیبانی می‌کنند
-        const ok = await watchAssetEIP747();
-        if (ok) { successEl.style.display="block"; setTimeout(()=>successEl.style.display="none", 2500); return; }
-      }
-    } catch(e){ /* ignore and fallback */ }
-    // fallback: deep link with prefilled fields
-    window.location.href = TW_ADD;
-    return;
-  }
-
-  // Neither MM nor Trust
-  const msg = `Open this page inside your wallet app:
-- MetaMask: ${MM_DAPP}
-- Trust Wallet: ${TW_ADD}`;
-  alert(msg);
+/* Show success message */
+function showSuccess() {
+  const el = document.getElementById("success");
+  el.style.display = "block";
+  setTimeout(() => el.style.display = "none", 2500);
 }
 </script>
 </body>

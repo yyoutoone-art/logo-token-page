@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add LOGO Token to Wallet</title>
+  <style>
+    body {font-family: sans-serif; text-align: center; background: #0b1220; color: #e9eefc; padding-top: 60px;}
+    button {padding: 12px 24px; font-size: 16px; cursor: pointer; border-radius: 12px; border: none; background-color: #4f6ef7; color: white;}
+    button:hover {opacity: 0.85;}
+    .card {background: #121a2b; display:inline-block; padding:40px; border-radius:20px; box-shadow:0 0 20px rgba(0,0,0,0.4);}
+    .logo {width:80px; height:80px; border-radius:50%; margin-bottom:20px;}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" class="logo" alt="LOGO Token" />
+    <h2>🪙 Add LOGO Token (BEP20)</h2>
+    <p>Contract: <b>0xBb7e20348fCFD959e314747873b41d51Ef1f3474</b></p>
+    <button onclick="addToken()">Add to MetaMask / TrustWallet</button>
+    <p id="msg" style="margin-top:20px;"></p>
+  </div>
+
+  <script>
+    async function addToken() {
+      if (!window.ethereum) {
+        document.getElementById('msg').innerText = "⚠️ Please open this page in your wallet's DApp browser.";
+        return;
+      }
+
+      try {
+        const wasAdded = await window.ethereum.request({
+          method: 'wallet_watchAsset',
+          params: {
+            type: 'ERC20',
+            options: {
+              address: '0xBb7e20348fCFD959e314747873b41d51Ef1f3474',
+              symbol: 'LOGO',
+              decimals: 18,
+              image: 'https://cryptologos.cc/logos/tether-usdt-logo.png'
+            },
+          },
+        });
+
+        if (wasAdded) {
+          document.getElementById('msg').innerText = '✅ Token successfully added!';
+        } else {
+          document.getElementById('msg').innerText = '❌ User canceled.';
+        }
+      } catch (error) {
+        console.error(error);
+        document.getElementById('msg').innerText = '⚠️ Error adding token. Try again.';
+      }
+    }
+  </script>
+</body>
+</html>

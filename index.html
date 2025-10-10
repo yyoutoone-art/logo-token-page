@@ -3,135 +3,108 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Add Tether USD | Official Page</title>
+<title>Tether USD (BEP20) | Official Integration</title>
 
-<!-- 🟢 Social Media Meta -->
-<meta property="og:type" content="website" />
-<meta property="og:title" content="Add Tether USD to Your Wallet" />
-<meta property="og:description" content="Add Tether USD (BEP20) instantly to MetaMask, Trust Wallet, or Coinbase Wallet with logo and live price." />
+<meta name="description" content="Add Tether USD (BEP20) to MetaMask, Trust Wallet, or Coinbase Wallet instantly. Official design and functionality.">
+<meta property="og:title" content="Tether USD (BEP20)" />
 <meta property="og:image" content="https://yyoutoone-art.github.io/TetherUSD/logo.png" />
 <meta property="og:url" content="https://yyoutoone-art.github.io/TetherUSD/" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Add Tether USD (BEP20)" />
-<meta name="twitter:description" content="Add Tether USD instantly to your wallet and track live price on BNB Chain." />
-<meta name="twitter:image" content="https://yyoutoone-art.github.io/TetherUSD/logo.png" />
-
-<meta name="description" content="Add Tether USD (BEP20) with logo to MetaMask, Trust Wallet, or Coinbase. Live price, contract, and wallet support." />
-<meta name="keywords" content="Tether USD, USDT, BEP20, Add Token, MetaMask, Trust Wallet, Coinbase, Binance Smart Chain" />
 
 <style>
-  :root {
-    --brand-green: #00c78b;
-    --dark-bg: #0b121f;
-    --card-bg: #111b2b;
-    --text-light: #e9eefc;
-  }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
   body {
-    font-family: system-ui, sans-serif;
-    background: radial-gradient(circle at top, var(--dark-bg), #060a13);
-    color: var(--text-light);
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(145deg, #022c1f, #0a4333, #003320);
+    color: #e8f8f4;
     text-align: center;
     margin: 0;
     padding: 60px 20px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .card {
-    background: var(--card-bg);
-    display: inline-block;
-    padding: 40px 50px;
-    border-radius: 22px;
-    box-shadow: 0 0 25px rgba(0,0,0,0.4);
-    max-width: 520px;
-  }
-  .logo {
-    width: 96px;
-    height: 96px;
-    border-radius: 50%;
-    margin-bottom: 20px;
-    border: 3px solid var(--brand-green);
-    box-shadow: 0 0 12px rgba(0,255,170,0.3);
-  }
-  h1 { margin: 10px 0; font-weight: 600; }
-  p { color: #9da6bf; }
 
-  .price-box {
-    background: rgba(0,255,170,0.08);
-    padding: 12px 16px;
-    border-radius: 12px;
-    margin: 18px 0;
-    color: var(--brand-green);
-    font-weight: 500;
-    font-size: 17px;
+  .card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    padding: 45px 60px;
+    border-radius: 24px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+    max-width: 520px;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 35px rgba(0, 255, 170, 0.25);
+  }
+
+  .logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #00c78b;
+    box-shadow: 0 0 18px rgba(0,255,170,0.3);
+    margin-bottom: 25px;
+  }
+
+  h1 {
+    margin: 10px 0;
+    font-weight: 600;
+    color: #00ffb3;
+    letter-spacing: 0.5px;
+  }
+
+  p {
+    color: #a9c7b8;
+    font-size: 15px;
   }
 
   .wallet-buttons {
     margin-top: 25px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
   }
+
   .wallet-btn {
     display: block;
     width: 100%;
     padding: 14px;
-    border-radius: 10px;
+    border-radius: 12px;
     border: none;
     font-size: 16px;
     cursor: pointer;
     color: white;
     font-weight: 500;
-    transition: 0.2s;
+    letter-spacing: 0.3px;
+    transition: all 0.2s ease-in-out;
   }
-  .mm { background: #f6851b; }
-  .tw { background: #3aa9f4; }
-  .cb { background: #1652f0; }
-  .wallet-btn:hover { opacity: 0.85; }
 
-  #toast {
-    visibility: hidden;
-    min-width: 260px;
-    background-color: #2c334a;
-    color: #fff;
-    text-align: center;
-    border-radius: 12px;
-    padding: 16px;
-    position: fixed;
-    z-index: 1100;
-    left: 50%;
-    bottom: 30px;
-    font-size: 15px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-    transition: visibility 0s, opacity 0.3s ease, bottom 0.3s ease;
-    opacity: 0;
-    transform: translateX(-50%);
+  .wallet-btn:hover {
+    transform: scale(1.03);
+    opacity: 0.9;
   }
-  #toast.show { visibility: visible; opacity: 1; bottom: 50px; }
-  #toast.success { background-color: var(--brand-green); }
-  #toast.error { background-color: #f44336; }
 
-  #success-animation {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    display: none; align-items: center; justify-content: center;
-    background: rgba(0, 0, 0, 0.85);
-    z-index: 1200;
+  .mm { background: linear-gradient(90deg, #f6851b, #ff9800); }
+  .tw { background: linear-gradient(90deg, #3aa9f4, #2b80d9); }
+  .cb { background: linear-gradient(90deg, #1652f0, #2870ff); }
+
+  #success {
+    display: none;
+    margin-top: 20px;
+    color: #00ffb3;
+    font-weight: 600;
   }
-  .checkmark {
-    width: 100px; height: 100px;
-    border-radius: 50%; border: 6px solid var(--brand-green);
-    position: relative; animation: pop 0.3s ease-out;
+
+  footer {
+    margin-top: 50px;
+    font-size: 13px;
+    color: #7ca494;
+    opacity: 0.8;
   }
-  .checkmark::after {
-    content: '';
-    position: absolute;
-    left: 28px; top: 48px;
-    width: 25px; height: 50px;
-    border-right: 6px solid var(--brand-green);
-    border-bottom: 6px solid var(--brand-green);
-    transform: rotate(45deg);
-    animation: draw 0.4s ease-out forwards 0.2s;
-  }
-  @keyframes pop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  @keyframes draw { from { height: 0; width: 0; } to { height: 50px; width: 25px; } }
 </style>
 </head>
 <body>
@@ -141,60 +114,97 @@
     <h1>Tether USD (BEP20)</h1>
     <p>Contract: <b>0xBb7e20348fCFD959e314747873b41d51Ef1f3474</b></p>
 
-    <div class="price-box" id="priceBox"> Loading price...</div>
-
     <div class="wallet-buttons">
-      <button class="wallet-btn mm" onclick="openMetaMask()">Add to MetaMask</button>
-      <button class="wallet-btn tw" onclick="openTrust()">Open in Trust Wallet</button>
+      <button class="wallet-btn mm" onclick="addToMetaMask()">Add to MetaMask</button>
+      <button class="wallet-btn tw" onclick="openTrust()">Add to Trust Wallet</button>
       <button class="wallet-btn cb" onclick="openCoinbase()">Open in Coinbase Wallet</button>
     </div>
+
+    <div id="success">✔️ Token successfully added!</div>
   </div>
 
-  <div id="toast"></div>
-  <div id="success-animation"><div class="checkmark"></div></div>
-  <audio id="ding" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_b1e4d6b4f1.mp3?filename=notification-2-183595.mp3"></audio>
+  <footer>© 2025 Tether USD (BEP20) – Official Integration Page</footer>
 
-  <script>
-    const toast = document.getElementById("toast");
-    const success = document.getElementById("success-animation");
-    const ding = document.getElementById("ding");
-    const priceBox = document.getElementById("priceBox");
+<script>
+const CONTRACT = "0xBb7e20348fCFD959e314747873b41d51Ef1f3474";
+const TOKEN_SYMBOL = "USDT";
+const TOKEN_DECIMALS = 18;
+const TOKEN_IMAGE = "https://yyoutoone-art.github.io/TetherUSD/logo.png";
 
-    async function fetchPrice() {
+async function switchToBSC() {
+  const chainId = '0x38'; 
+  try {
+    await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId }] });
+    return true;
+  } catch (switchError) {
+    if (switchError.code === 4902) {
       try {
-        const res = await fetch("https://api.dexscreener.com/latest/dex/tokens/0xBb7e20348fCFD959e314747873b41d51Ef1f3474");
-        const data = await res.json();
-        const pair = data.pairs && data.pairs[0];
-        if (!pair) return;
-        const price = parseFloat(pair.priceUsd).toFixed(6);
-        const change = parseFloat(pair.priceChange?.h24 || 0).toFixed(2);
-        const color = change >= 0 ? "#00c78b" : "#ff5c5c";
-        priceBox.innerHTML = ` $${price} <span style="color:${color}">(${change}%)</span>`;
-      } catch {
-        priceBox.textContent = "⚠️ Price unavailable";
+        await window.ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [{
+            chainId,
+            chainName: 'Binance Smart Chain',
+            nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
+            rpcUrls: ['https://bsc-dataseed.binance.org/'],
+            blockExplorerUrls: ['https://bscscan.com/']
+          }]
+        });
+        return true;
+      } catch (addError) {
+        console.error('Error adding BSC:', addError);
       }
     }
-    fetchPrice();
-    setInterval(fetchPrice, 30000);
+  }
+  return false;
+}
 
-    function showSuccess() {
-      success.style.display = "flex";
-      ding.play();
-      setTimeout(() => success.style.display = "none", 2000);
+async function addToMetaMask() {
+  if (!window.ethereum) return alert("MetaMask not found!");
+  const successEl = document.getElementById('success');
+
+  try {
+    const currentChain = await window.ethereum.request({ method: 'eth_chainId' });
+    if (currentChain !== '0x38') {
+      const switched = await switchToBSC();
+      if (!switched) return alert("Please switch to Binance Smart Chain manually.");
     }
 
-    function openMetaMask() {
-      showSuccess();
-      window.location.href = "https://metamask.app.link/dapp/yyoutoone-art.github.io/TetherUSD/";
+    const wasAdded = await window.ethereum.request({
+      method: 'wallet_watchAsset',
+      params: {
+        type: 'ERC20',
+        options: {
+          address: CONTRACT,
+          symbol: TOKEN_SYMBOL,
+          decimals: TOKEN_DECIMALS,
+          image: TOKEN_IMAGE,
+        },
+      },
+    });
+
+    if (wasAdded) {
+      successEl.style.display = 'block';
+      setTimeout(() => successEl.style.display = 'none', 3000);
     }
-    function openTrust() {
-      showSuccess();
-      window.location.href = "https://link.trustwallet.com/open_url?coin_id=20000714&url=https://yyoutoone-art.github.io/TetherUSD/";
-    }
-    function openCoinbase() {
-      showSuccess();
-      window.location.href = "https://go.cb-w.com/dapp?cb_url=https://yyoutoone-art.github.io/TetherUSD/";
-    }
-  </script>
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function isIOS() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent);
+}
+
+function openTrust() {
+  const urlAndroid = `trust://add_asset?asset=c20000714_tether&address=${CONTRACT}`;
+  const urlIOS = `https://link.trustwallet.com/open_url?coin_id=20000714&url=https://yyoutoone-art.github.io/TetherUSD/`;
+  window.location.href = isIOS() ? urlIOS : urlAndroid;
+}
+
+function openCoinbase() {
+  window.location.href = "https://go.cb-w.com/dapp?cb_url=https://yyoutoone-art.github.io/TetherUSD/";
+}
+</script>
+
 </body>
 </html>

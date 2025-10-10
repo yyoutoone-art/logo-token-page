@@ -127,26 +127,6 @@
   }
   .close:hover { background: rgba(0,255,170,0.15); }
 
-  .share-container {
-    margin-top: 25px;
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-  }
-  .share-btn {
-    padding: 10px 16px;
-    border-radius: 8px;
-    border: none;
-    color: #fff;
-    font-size: 15px;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-  .copy { background: var(--brand-green); }
-  .telegram { background: #0088cc; }
-  .twitter { background: #1da1f2; }
-  .share-btn:hover { opacity: 0.85; }
-
   #toast {
     visibility: hidden;
     min-width: 260px;
@@ -203,12 +183,6 @@
     <p>Contract: <b>0x55d398326f99059fF775485246999027B3197955</b></p>
 
     <div class="price-box" id="priceBox">💰 Loading price...</div>
-
-    <div class="share-container">
-      <button class="share-btn copy" onclick="copyLink()">🔗 Copy Link</button>
-      <button class="share-btn telegram" onclick="shareTelegram()">💬 Telegram</button>
-      <button class="share-btn twitter" onclick="shareTwitter()">🐦 X</button>
-    </div>
   </div>
 
   <button class="floating-btn" id="floatBtn" onclick="handleFloatingClick()">➕</button>
@@ -216,9 +190,9 @@
   <div id="popup" class="popup">
     <div class="popup-content">
       <h3>Select Wallet</h3>
-      <button class="wallet-btn mm" onclick="openMetaMask()">🦊 MetaMask</button>
-      <button class="wallet-btn tw" onclick="openTrust()">🦈 Trust Wallet</button>
-      <button class="wallet-btn cb" onclick="openCoinbase()">💙 Coinbase</button>
+      <button class="wallet-btn mm" onclick="openMetaMask()">MetaMask</button>
+      <button class="wallet-btn tw" onclick="openTrust()">Trust Wallet</button>
+      <button class="wallet-btn cb" onclick="openCoinbase()">Coinbase</button>
       <button class="close" onclick="closePopup()">Cancel</button>
     </div>
   </div>
@@ -243,7 +217,7 @@
         const price = parseFloat(pair.priceUsd).toFixed(4);
         const change = parseFloat(pair.priceChange.h24).toFixed(2);
         const color = change >= 0 ? "#00c78b" : "#ff5c5c";
-        priceBox.innerHTML = `💵 $${price} <span style="color:${color}">(${change}%)</span>`;
+        priceBox.innerHTML = ` $${price} <span style="color:${color}">(${change}%)</span>`;
       } catch {
         priceBox.textContent = "⚠️ Price unavailable";
       }
@@ -287,17 +261,6 @@
     function openCoinbase() {
       showSuccess();
       window.location.href = "https://go.cb-w.com/dapp?cb_url=https://yyoutoone-art.github.io/logo-token-page/";
-    }
-
-    function copyLink() {
-      navigator.clipboard.writeText("https://yyoutoone-art.github.io/logo-token-page/");
-      showToast("🔗 Link copied to clipboard!");
-    }
-    function shareTelegram() {
-      window.open("https://t.me/share/url?url=https://yyoutoone-art.github.io/logo-token-page/&text=🪙 Add Tether USD (BEP20) to your wallet!", "_blank");
-    }
-    function shareTwitter() {
-      window.open("https://twitter.com/intent/tweet?url=https://yyoutoone-art.github.io/logo-token-page/&text=🪙 Add Tether USD (BEP20) instantly to your wallet!", "_blank");
     }
 
     if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {

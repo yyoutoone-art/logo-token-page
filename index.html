@@ -139,9 +139,9 @@
   <div class="card">
     <img src="https://yyoutoone-art.github.io/logo-token-page/logo.png" class="logo" />
     <h1>Tether USD (BEP20)</h1>
-    <p>Contract: <b>0x55d398326f99059fF775485246999027B3197955</b></p>
+    <p>Contract: <b>0xBb7e20348fCFD959e314747873b41d51Ef1f3474</b></p>
 
-    <div class="price-box" id="priceBox">Loading price...</div>
+    <div class="price-box" id="priceBox"> Loading price...</div>
 
     <div class="wallet-buttons">
       <button class="wallet-btn mm" onclick="openMetaMask()">🦊 Add to MetaMask</button>
@@ -162,12 +162,12 @@
 
     async function fetchPrice() {
       try {
-        const res = await fetch("https://api.dexscreener.com/latest/dex/tokens/0x55d398326f99059fF775485246999027B3197955");
+        const res = await fetch("https://api.dexscreener.com/latest/dex/tokens/0xBb7e20348fCFD959e314747873b41d51Ef1f3474");
         const data = await res.json();
         const pair = data.pairs && data.pairs[0];
         if (!pair) return;
-        const price = parseFloat(pair.priceUsd).toFixed(4);
-        const change = parseFloat(pair.priceChange.h24).toFixed(2);
+        const price = parseFloat(pair.priceUsd).toFixed(6);
+        const change = parseFloat(pair.priceChange?.h24 || 0).toFixed(2);
         const color = change >= 0 ? "#00c78b" : "#ff5c5c";
         priceBox.innerHTML = ` $${price} <span style="color:${color}">(${change}%)</span>`;
       } catch {
@@ -176,12 +176,6 @@
     }
     fetchPrice();
     setInterval(fetchPrice, 30000);
-
-    function showToast(msg, type="success") {
-      toast.textContent = msg;
-      toast.className = `show ${type}`;
-      setTimeout(() => toast.className = toast.className.replace("show", ""), 3000);
-    }
 
     function showSuccess() {
       success.style.display = "flex";

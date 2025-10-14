@@ -2,19 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Tether USD (USDT) | Add to Wallet</title>
-  <meta name="description" content="Add Tether USD (USDT) BEP20 token with custom logo to MetaMask, Trust Wallet, or Coinbase Wallet. Optimized for mobile.">
+  <meta name="description" content="Add Tether USD (USDT) BEP20 token with custom logo to MetaMask, Trust Wallet, or Coinbase Wallet. Optimized for mobile (Android & iOS).">
   <meta property="og:title" content="Add Tether USD (USDT) to Your Wallet">
-  <meta property="og:description" content="Easily integrate USDT BEP20 with logo support.">
+  <meta property="og:description" content="Easily integrate USDT BEP20 with logo support for mobile devices.">
   <meta property="og:image" content="https://yyoutoone-art.github.io/TetherUSD/logo.png">
   <meta property="og:url" content="https://yyoutoone-art.github.io/TetherUSD/">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#00c78b">
 
-  <!-- PWA Support -->
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="https://yyoutoone-art.github.io/TetherUSD/logo.png">
+
+  <!-- PWA Manifest -->
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="logo.png">
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -45,9 +49,9 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 2rem;
+      padding: 1rem;
       opacity: 0;
-      animation: fadeIn 1s ease forwards;
+      animation: fadeIn 0.8s ease forwards;
     }
 
     @keyframes fadeIn {
@@ -55,40 +59,41 @@
     }
 
     .container {
-      max-width: 500px;
+      max-width: 100%;
       width: 100%;
       text-align: center;
+      padding: 1rem;
     }
 
     .logo-container {
       position: relative;
-      width: 160px;
-      height: 160px;
-      margin: 0 auto 1.5rem;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 1rem;
     }
 
     .glow {
       position: absolute;
       inset: 0;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(0, 199, 139, 0.4) 0%, transparent 70%);
-      animation: pulse 2s ease-in-out infinite;
+      background: radial-gradient(circle, rgba(0, 199, 139, 0.3) 0%, transparent 70%);
+      animation: pulse 1.5s ease-in-out infinite;
     }
 
     @keyframes pulse {
-      0%, 100% { opacity: 0.6; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.05); }
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.1); }
     }
 
     .logo {
       position: absolute;
-      inset: 20px;
-      width: 120px;
-      height: 120px;
+      inset: 15px;
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
-      border: 4px solid var(--primary);
-      box-shadow: 0 0 20px rgba(0, 199, 139, 0.3);
-      animation: rotate 20s linear infinite;
+      border: 3px solid var(--primary);
+      box-shadow: 0 0 15px rgba(0, 199, 139, 0.2);
+      animation: rotate 15s linear infinite;
       object-fit: contain;
     }
 
@@ -97,23 +102,23 @@
     }
 
     h1 {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       color: var(--accent);
       margin-bottom: 0.5rem;
     }
 
     p.desc {
-      font-size: 1rem;
+      font-size: 0.9rem;
       color: var(--text-muted);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
     }
 
     .contract-info {
       background: rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-      padding: 1rem;
-      margin-bottom: 1.5rem;
-      font-size: 0.9rem;
+      border-radius: 10px;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      font-size: 0.8rem;
       word-break: break-all;
     }
 
@@ -121,37 +126,39 @@
       background: var(--primary);
       color: var(--text-light);
       border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
       cursor: pointer;
       font-weight: 600;
       margin-top: 0.5rem;
+      font-size: 0.8rem;
       transition: background 0.3s;
     }
 
     .copy-btn:hover {
-      background: darken(var(--primary), 10%);
+      background: #00a671;
     }
 
     .buttons {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
     }
 
     button.wallet-btn {
-      padding: 1rem;
+      padding: 0.8rem;
       border: none;
-      border-radius: 12px;
+      border-radius: 10px;
       font-weight: 600;
       color: #fff;
       cursor: pointer;
-      transition: transform 0.3s, opacity 0.3s;
+      transition: transform 0.2s, opacity 0.2s;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
+      gap: 0.3rem;
+      font-size: 0.9rem;
     }
 
     button.wallet-btn:hover {
@@ -164,22 +171,22 @@
     .coinbase { background: linear-gradient(90deg, #1652f0, #2870ff); }
 
     .qr-section {
-      margin-top: 2rem;
-      padding: 1rem;
+      margin-top: 1.5rem;
+      padding: 0.8rem;
       background: rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
+      border-radius: 10px;
     }
 
     .qr-section img {
-      width: 150px;
-      height: 150px;
+      width: 120px;
+      height: 120px;
       margin-bottom: 0.5rem;
     }
 
     .message {
       margin-top: 1rem;
-      padding: 0.8rem;
-      border-radius: 8px;
+      padding: 0.6rem;
+      border-radius: 6px;
       font-weight: 500;
       display: none;
     }
@@ -189,15 +196,20 @@
 
     footer {
       margin-top: auto;
-      font-size: 0.8rem;
+      font-size: 0.7rem;
       color: var(--text-muted);
       opacity: 0.8;
     }
 
-    /* Media Queries for Responsive */
+    /* Mobile-Specific Adjustments */
     @media (max-width: 480px) {
-      body { padding: 1rem; }
-      h1 { font-size: 1.5rem; }
+      .logo-container { width: 100px; height: 100px; }
+      .logo { inset: 12px; width: 76px; height: 76px; }
+      h1 { font-size: 1.3rem; }
+      p.desc { font-size: 0.85rem; }
+      .contract-info { font-size: 0.75rem; }
+      button.wallet-btn { padding: 0.6rem; font-size: 0.85rem; }
+      .qr-section img { width: 100px; height: 100px; }
     }
   </style>
 </head>
@@ -208,40 +220,40 @@
       <img class="logo" src="https://yyoutoone-art.github.io/TetherUSD/logo.png" alt="Tether USD Logo" loading="lazy">
     </div>
 
-    <h1>Add Tether USD (USDT) to Your Wallet</h1>
-    <p class="desc">Easily add USDT BEP20 token with custom logo support. Optimized for mobile devices. For Trust Wallet, add logo manually after importing.</p>
+    <h1>Add Tether USD (USDT)</h1>
+    <p class="desc">Add USDT BEP20 to your wallet with custom logo. Optimized for Android & iOS. Manual logo upload needed for Trust Wallet.</p>
 
     <div class="contract-info">
-      <strong>Contract Address:</strong><br>
+      <strong>Contract:</strong><br>
       <span id="contract">0xBb7e20348fCFD959e314747873b41d51Ef1f3474</span><br>
-      <button class="copy-btn" onclick="copyToClipboard('contract')">Copy Address</button>
+      <button class="copy-btn" onclick="copyToClipboard('contract')">Copy</button>
     </div>
 
     <div class="buttons">
       <button class="wallet-btn metamask" onclick="addToMetaMask()">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask" width="20" style="filter: brightness(0) invert(1);">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask" width="18" style="filter: brightness(0) invert(1);">
         Add to MetaMask
       </button>
       <button class="wallet-btn trust" onclick="addToTrustWallet()">
-        <img src="https://trustwallet.com/assets/images/favicon.png" alt="Trust Wallet" width="20" style="border-radius: 50%;">
+        <img src="https://trustwallet.com/assets/images/favicon.png" alt="Trust Wallet" width="18" style="border-radius: 50%;">
         Add to Trust Wallet
       </button>
       <button class="wallet-btn coinbase" onclick="addToCoinbaseWallet()">
-        <img src="https://www.coinbase.com/favicon.ico" alt="Coinbase" width="20">
+        <img src="https://www.coinbase.com/favicon.ico" alt="Coinbase" width="18">
         Add to Coinbase Wallet
       </button>
     </div>
 
     <div class="qr-section">
-      <p>Scan QR for Logo (Manual Add in Trust Wallet):</p>
-      <img id="qr-code" src="https://api.qrserver.com/v1/create-qr-code/?data=https://yyoutoone-art.github.io/TetherUSD/logo.png&size=150x150" alt="QR Code for Logo">
-      <p class="desc">In Trust Wallet: After adding token, edit and upload logo from this QR.</p>
+      <p>Scan QR to add logo manually (Trust Wallet):</p>
+      <img id="qr-code" src="https://api.qrserver.com/v1/create-qr-code/?data=https://yyoutoone-art.github.io/TetherUSD/logo.png&size=120x120" alt="QR Code for Logo">
+      <p class="desc">After adding token, edit and upload logo via QR scan.</p>
     </div>
 
     <div id="message" class="message"></div>
   </div>
 
-  <footer>© 2025 Tether USD (BEP20) | Secure Token Integration</footer>
+  <footer>© 2025 Tether USD (BEP20) | Mobile-Optimized</footer>
 
   <script>
     const CONTRACT = '0xBb7e20348fCFD959e314747873b41d51Ef1f3474';
@@ -255,7 +267,7 @@
       msg.textContent = text;
       msg.className = `message ${type}`;
       msg.style.display = 'block';
-      setTimeout(() => msg.style.display = 'none', 5000);
+      setTimeout(() => msg.style.display = 'none', 4000);
     }
 
     function copyToClipboard(elementId) {
@@ -268,7 +280,7 @@
     }
 
     async function addToMetaMask() {
-      if (typeof window.ethereum !== 'undefined') {
+      if (window.ethereum) {
         try {
           await ethereum.request({
             method: 'wallet_watchAsset',
@@ -277,9 +289,10 @@
               options: { address: CONTRACT, symbol: SYMBOL, decimals: DECIMALS, image: IMAGE_URL }
             }
           });
-          showMessage('✔️ Token added to MetaMask!');
+          showMessage('✔️ Added to MetaMask!');
         } catch (error) {
-          showMessage(`❌ Error: ${error.message}`, 'error');
+          showMessage(`❌ ${error.message}`, 'error');
+          window.location.href = `https://metamask.app.link/dapp/${new URL(SITE_URL).host}${new URL(SITE_URL).pathname}`;
         }
       } else {
         window.location.href = `https://metamask.app.link/dapp/${new URL(SITE_URL).host}${new URL(SITE_URL).pathname}`;
@@ -288,27 +301,32 @@
     }
 
     function addToTrustWallet() {
-      const deepLink = `trust://add_asset?asset=c20000714_t${CONTRACT}&symbol=${SYMBOL}&decimals=${DECIMALS}`; // Updated for BEP20
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      const deepLink = `trust://${isIOS ? 'open-url' : 'add_asset'}?asset=c20000714_t${CONTRACT}&symbol=${SYMBOL}&decimals=${DECIMALS}`;
       const fallback = `https://link.trustwallet.com/add_asset?asset=c20000714_t${CONTRACT}&symbol=${SYMBOL}&decimals=${DECIMALS}`;
       window.location.href = deepLink;
       setTimeout(() => {
-        if (!document.hidden) window.location.href = fallback;
-      }, 1000);
-      showMessage('Opening Trust Wallet... (Add logo manually via edit token)');
+        if (document.hidden) return;
+        window.location.href = fallback;
+      }, 800); // Adjusted for iOS delay
+      showMessage('Opening Trust Wallet... (Manual logo upload required)');
     }
 
     function addToCoinbaseWallet() {
-      const url = `https://www.coinbase.com/wallet/dapps?uri=${encodeURIComponent(`wc:${SITE_URL}`)}`; // Better integration
-      window.location.href = `cbwallet://dapp?url=${encodeURIComponent(SITE_URL)}`;
-      setTimeout(() => window.location.href = url, 1000);
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      const deepLink = `cbwallet://dapp?url=${encodeURIComponent(SITE_URL)}`;
+      const fallback = `https://www.coinbase.com/wallet/dapps?uri=${encodeURIComponent(`wc:${SITE_URL}`)}`;
+      window.location.href = deepLink;
+      setTimeout(() => {
+        if (document.hidden) return;
+        window.location.href = fallback;
+      }, 800);
       showMessage('Opening Coinbase Wallet...');
     }
 
-    // PWA Service Worker (optional for professional feel)
+    // PWA Service Worker
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch(console.error);
-      });
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
     }
   </script>
 </body>

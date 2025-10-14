@@ -15,7 +15,6 @@
   <link rel="manifest" href="manifest.json">
 
   <style>
-    /* استفاده از فونت سیستمی به جای import خارجی */
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: linear-gradient(180deg, #021f1b, #04322b);
@@ -134,10 +133,6 @@
       color: #fff;
       cursor: pointer;
       transition: transform 0.2s, opacity 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.3rem;
       font-size: 0.9rem;
       width: 100%;
     }
@@ -164,23 +159,6 @@
       margin: 0 auto 0.5rem;
     }
 
-    .guide {
-      margin-top: 1.5rem;
-      padding: 0.8rem;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 10px;
-      font-size: 0.8rem;
-    }
-
-    .guide p {
-      margin-bottom: 0.5rem;
-      line-height: 1.4;
-    }
-
-    .guide strong {
-      color: #00ffb3;
-    }
-
     .message {
       margin-top: 1rem;
       padding: 0.6rem;
@@ -199,7 +177,6 @@
       opacity: 0.8;
     }
 
-    /* Media Queries */
     @media (max-width: 480px) {
       .logo-container { width: 100px; height: 100px; }
       .logo { inset: 12px; width: 76px; height: 76px; }
@@ -214,7 +191,6 @@
       .buttons { gap: 0.6rem; max-width: 240px; }
       .contract-info { padding: 0.6rem; }
       .qr-section img { width: 90px; height: 90px; }
-      .guide { font-size: 0.75rem; }
     }
   </style>
 </head>
@@ -235,31 +211,15 @@
     </div>
 
     <div class="buttons">
-      <button class="wallet-btn metamask" onclick="addToMetaMask()">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask" width="18" style="filter: brightness(0) invert(1);">
-        Add to MetaMask
-      </button>
-      <button class="wallet-btn trust" onclick="addToTrustWallet()">
-        <img src="https://trustwallet.com/assets/images/favicon.png" alt="Trust Wallet" width="18" style="border-radius: 50%;">
-        Add to Trust Wallet
-      </button>
-      <button class="wallet-btn coinbase" onclick="addToCoinbaseWallet()">
-        <img src="https://www.coinbase.com/favicon.ico" alt="Coinbase" width="18">
-        Add to Coinbase Wallet
-      </button>
+      <button class="wallet-btn metamask" onclick="addToMetaMask()">Add to MetaMask</button>
+      <button class="wallet-btn trust" onclick="addToTrustWallet()">Add to Trust Wallet</button>
+      <button class="wallet-btn coinbase" onclick="addToCoinbaseWallet()">Add to Coinbase Wallet</button>
     </div>
 
     <div class="qr-section">
       <p>Scan QR to add logo manually (Trust Wallet):</p>
       <img id="qr-code" src="https://api.qrserver.com/v1/create-qr-code/?data=https://yyoutoone-art.github.io/TetherUSD/logo.png&size=120x120" alt="QR Code for Logo">
       <p class="desc">After adding token, edit it and upload this logo.</p>
-    </div>
-
-    <div class="guide">
-      <p><strong>How to Add Logo in Trust Wallet:</strong></p>
-      <p>1. Add token with the contract above.</p>
-      <p>2. Go to 'Manage' > 'Edit' > 'Change Icon'.</p>
-      <p>3. Scan QR or download logo and upload it.</p>
     </div>
 
     <div id="message" class="message"></div>

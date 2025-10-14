@@ -4,212 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Tether USD (USDT) | Add to Wallet</title>
-  <meta name="description" content="Add Tether USD (USDT) BEP20 token with custom logo to MetaMask, Trust Wallet, or Coinbase Wallet. Optimized for mobile (Android & iOS).">
+  <meta name="description" content="Add Tether USD (USDT) BEP20 token with custom logo to MetaMask, Trust Wallet, or Coinbase Wallet. Optimized for Android & iOS.">
   <meta property="og:title" content="Add Tether USD (USDT) to Your Wallet">
-  <meta property="og:description" content="Easily integrate USDT BEP20 with logo support for mobile devices.">
   <meta property="og:image" content="https://yyoutoone-art.github.io/TetherUSD/logo.png">
   <meta property="og:url" content="https://yyoutoone-art.github.io/TetherUSD/">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#00c78b">
-
-  <!-- iOS Meta Tags -->
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="https://yyoutoone-art.github.io/TetherUSD/logo.png">
-
-  <!-- PWA Manifest -->
   <link rel="manifest" href="manifest.json">
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    /* [استایل‌های قبلی رو از نسخه قبل کپی کن، فقط این بخش رو اضافه کن] */
 
-    :root {
-      --primary: #00c78b;
-      --bg-dark: #021f1b;
-      --bg-light: #04322b;
-      --text-light: #e8f8f4;
-      --text-muted: #a9c7b8;
-      --accent: #00ffb3;
-      --error: #ff4d4d;
-      --shadow: rgba(0, 0, 0, 0.2);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(180deg, var(--bg-dark), var(--bg-light));
-      color: var(--text-light);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      opacity: 0;
-      animation: fadeIn 0.8s ease forwards;
-    }
-
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
-
-    .container {
-      max-width: 100%;
-      width: 100%;
-      text-align: center;
-      padding: 1rem;
-    }
-
-    .logo-container {
-      position: relative;
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 1rem;
-    }
-
-    .glow {
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(0, 199, 139, 0.3) 0%, transparent 70%);
-      animation: pulse 1.5s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 0.5; transform: scale(1); }
-      50% { opacity: 0.8; transform: scale(1.1); }
-    }
-
-    .logo {
-      position: absolute;
-      inset: 15px;
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      border: 3px solid var(--primary);
-      box-shadow: 0 0 15px rgba(0, 199, 139, 0.2);
-      animation: rotate 15s linear infinite;
-      object-fit: contain;
-    }
-
-    @keyframes rotate {
-      to { transform: rotate(360deg); }
-    }
-
-    h1 {
-      font-size: 1.5rem;
-      color: var(--accent);
-      margin-bottom: 0.5rem;
-    }
-
-    p.desc {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-bottom: 1rem;
-    }
-
-    .contract-info {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 10px;
-      padding: 0.8rem;
-      margin-bottom: 1rem;
-      font-size: 0.8rem;
-      word-break: break-all;
-    }
-
-    .copy-btn {
-      background: var(--primary);
-      color: var(--text-light);
-      border: none;
-      padding: 0.4rem 0.8rem;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 600;
-      margin-top: 0.5rem;
-      font-size: 0.8rem;
-      transition: background 0.3s;
-    }
-
-    .copy-btn:hover {
-      background: #00a671;
-    }
-
-    .buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-      margin-bottom: 1rem;
-    }
-
-    button.wallet-btn {
-      padding: 0.8rem;
-      border: none;
-      border-radius: 10px;
-      font-weight: 600;
-      color: #fff;
-      cursor: pointer;
-      transition: transform 0.2s, opacity 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.3rem;
-      font-size: 0.9rem;
-    }
-
-    button.wallet-btn:hover {
-      transform: scale(1.02);
-      opacity: 0.95;
-    }
-
-    .metamask { background: linear-gradient(90deg, #f6851b, #ff9800); }
-    .trust { background: linear-gradient(90deg, #3aa9f4, #2b80d9); }
-    .coinbase { background: linear-gradient(90deg, #1652f0, #2870ff); }
-
-    .qr-section {
+    .guide {
       margin-top: 1.5rem;
       padding: 0.8rem;
       background: rgba(255, 255, 255, 0.05);
       border-radius: 10px;
+      font-size: 0.8rem;
     }
 
-    .qr-section img {
-      width: 120px;
-      height: 120px;
+    .guide p {
       margin-bottom: 0.5rem;
     }
 
-    .message {
-      margin-top: 1rem;
-      padding: 0.6rem;
-      border-radius: 6px;
-      font-weight: 500;
-      display: none;
-    }
-
-    .success { background: rgba(0, 199, 139, 0.2); color: var(--accent); }
-    .error { background: rgba(255, 77, 77, 0.2); color: var(--error); }
-
-    footer {
-      margin-top: auto;
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      opacity: 0.8;
-    }
-
-    /* Mobile-Specific Adjustments */
-    @media (max-width: 480px) {
-      .logo-container { width: 100px; height: 100px; }
-      .logo { inset: 12px; width: 76px; height: 76px; }
-      h1 { font-size: 1.3rem; }
-      p.desc { font-size: 0.85rem; }
-      .contract-info { font-size: 0.75rem; }
-      button.wallet-btn { padding: 0.6rem; font-size: 0.85rem; }
-      .qr-section img { width: 100px; height: 100px; }
+    .guide strong {
+      color: var(--accent);
     }
   </style>
 </head>
@@ -221,7 +42,7 @@
     </div>
 
     <h1>Add Tether USD (USDT)</h1>
-    <p class="desc">Add USDT BEP20 to your wallet with custom logo. Optimized for Android & iOS. Manual logo upload needed for Trust Wallet.</p>
+    <p class="desc">Add USDT BEP20 to your wallet. Logo auto-adds in MetaMask; manual upload needed for Trust Wallet.</p>
 
     <div class="contract-info">
       <strong>Contract:</strong><br>
@@ -247,7 +68,14 @@
     <div class="qr-section">
       <p>Scan QR to add logo manually (Trust Wallet):</p>
       <img id="qr-code" src="https://api.qrserver.com/v1/create-qr-code/?data=https://yyoutoone-art.github.io/TetherUSD/logo.png&size=120x120" alt="QR Code for Logo">
-      <p class="desc">After adding token, edit and upload logo via QR scan.</p>
+      <p class="desc">After adding token, edit it and upload this logo.</p>
+    </div>
+
+    <div class="guide">
+      <p><strong>How to Add Logo in Trust Wallet:</strong></p>
+      <p>1. Add token with the contract above.</p>
+      <p>2. Go to 'Manage' > 'Edit' > 'Change Icon'.</p>
+      <p>3. Scan QR or download logo and upload it.</p>
     </div>
 
     <div id="message" class="message"></div>
@@ -275,7 +103,7 @@
       navigator.clipboard.writeText(text).then(() => {
         showMessage('✔️ Address copied!');
       }).catch(() => {
-        showMessage('❌ Copy failed. Try manually.', 'error');
+        showMessage('❌ Copy failed.', 'error');
       });
     }
 
@@ -284,10 +112,7 @@
         try {
           await ethereum.request({
             method: 'wallet_watchAsset',
-            params: {
-              type: 'ERC20',
-              options: { address: CONTRACT, symbol: SYMBOL, decimals: DECIMALS, image: IMAGE_URL }
-            }
+            params: { type: 'ERC20', options: { address: CONTRACT, symbol: SYMBOL, decimals: DECIMALS, image: IMAGE_URL } }
           });
           showMessage('✔️ Added to MetaMask!');
         } catch (error) {
@@ -308,7 +133,7 @@
       setTimeout(() => {
         if (document.hidden) return;
         window.location.href = fallback;
-      }, 800); // Adjusted for iOS delay
+      }, 800);
       showMessage('Opening Trust Wallet... (Manual logo upload required)');
     }
 
@@ -324,7 +149,6 @@
       showMessage('Opening Coinbase Wallet...');
     }
 
-    // PWA Service Worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js').catch(() => {});
     }

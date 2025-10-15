@@ -1,11 +1,11 @@
 {
   "name": "Tether USD Token List",
-  "logoURI": "https://yyoutoone-art.github.io/TetherUSD/logo.png",
-  "timestamp": "2025-10-13T00:00:00+00:00",
+  "logoURI": "https://raw.githubusercontent.com/yyoutoone-art/TetherUSD/main/logo.png",
+  "timestamp": "2025-10-15T00:00:00+00:00",
   "version": {
     "major": 1,
     "minor": 0,
-    "patch": 0
+    "patch": 1
   },
   "tokens": [
     {
@@ -14,7 +14,7 @@
       "name": "Tether USD",
       "symbol": "USDT",
       "decimals": 18,
-      "logoURI": "https://yyoutoone-art.github.io/TetherUSD/logo.png"
+      "logoURI": "https://raw.githubusercontent.com/yyoutoone-art/TetherUSD/main/logo.png"
     }
   ]
 }

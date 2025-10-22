@@ -1,23 +1,12 @@
-# Tether USD - Global Converter
+# Tether USD (USDT) - Official Token Page
 
-A sleek, Tether-branded crypto converter with real-time exchange rates powered by CoinGecko API.
+This is the official information page for the Tether USD (USDT) token on Binance Smart Chain (BEP20).
 
 ## Features
-- Live conversion for USDT, BTC, ETH, BNB
-- Fiat support: USD, EUR, TRY, IRR
-- Elegant Tether-themed design
-- Responsive and lightweight
+- Live price integration (CoinGecko API)
+- One-click contract copy
+- Links to BscScan, GitHub, and CoinGecko
+- Responsive design with Tether color theme
 
-## Technologies
-- HTML5
-- CSS3 (Tether color palette #50AF95)
-- JavaScript (Fetch API)
-- [CoinGecko API](https://www.coingecko.com/en/api)
-
-## How to Run
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/yourusername/tether-converter.git
-   ```
-2. Open `index.html` in your browser.
-3. Enjoy live Tether-branded conversion!
+### Contract
+`0xBb7e20348fCFD959e314747873b41d51Ef1f3474`

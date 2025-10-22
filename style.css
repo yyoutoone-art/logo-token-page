@@ -1,89 +1,73 @@
 body {
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: linear-gradient(135deg, #50AF95, #007B5D);
-  color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100vh;
   margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
 }
 
-header {
-  text-align: center;
-  padding: 40px 20px 20px;
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+.header {
+  background-color: #50AF95;
+  padding: 15px 0;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-header h1 {
-  font-size: 32px;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-
-header p {
-  font-size: 16px;
-  opacity: 0.9;
-}
-
-.container {
+.header .container {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  flex: 1;
+  width: 90%;
+  margin: 0 auto;
 }
 
-.converter-box {
-  background: rgba(255, 255, 255, 0.12);
-  padding: 30px;
-  border-radius: 16px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-  width: 360px;
+.logo {
+  height: 40px;
+}
+
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.hero {
+  background-color: #50AF95;
+  color: white;
   text-align: center;
+  padding: 100px 20px;
 }
 
-label {
-  margin-top: 10px;
-  display: block;
-  font-weight: 500;
-  color: #e9f9f3;
+.btn-primary {
+  background-color: white;
+  color: #50AF95;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
 }
 
-select, button {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  font-size: 1em;
-  margin-top: 8px;
-  outline: none;
-}
-
-button {
-  background: #e9f9f3;
-  color: #007B5D;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.3s;
-}
-
-button:hover {
-  background: #d6fff1;
-}
-
-.result {
-  margin-top: 20px;
-  font-size: 1.1em;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 10px;
-  border-radius: 8px;
-}
-
-footer {
+.section {
+  padding: 60px 20px;
   text-align: center;
-  padding: 15px;
-  font-size: 13px;
-  background: rgba(0,0,0,0.15);
-  border-top: 1px solid rgba(255,255,255,0.1);
+  background: white;
+  margin: 20px auto;
+  border-radius: 10px;
+  width: 90%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 50px;
+}
+
+.footer a {
+  color: #50AF95;
+  text-decoration: none;
 }

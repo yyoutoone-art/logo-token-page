@@ -1,43 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tether USD - Global Converter</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tether USD (USDT) - Official Token Page</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="https://yyoutoone-art.github.io/TetherUSD/logo.png">
 </head>
 <body>
-  <header>
-    <h1>Tether USD (USDT)</h1>
-    <p>Live Global Converter powered by CoinGecko API</p>
+  <header class="header">
+    <div class="container">
+      <img src="https://yyoutoone-art.github.io/TetherUSD/logo.png" alt="Tether Logo" class="logo">
+      <nav>
+        <a href="#about">About</a>
+        <a href="#tokenomics">Tokenomics</a>
+        <a href="#exchange">Trade</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
   </header>
 
-  <main class="container">
-    <div class="converter-box">
-      <label for="crypto">Select Cryptocurrency:</label>
-      <select id="crypto">
-        <option value="tether">Tether (USDT)</option>
-        <option value="bitcoin">Bitcoin (BTC)</option>
-        <option value="ethereum">Ethereum (ETH)</option>
-        <option value="binancecoin">BNB (BSC)</option>
-      </select>
-
-      <label for="fiat">Select Fiat Currency:</label>
-      <select id="fiat">
-        <option value="usd">USD</option>
-        <option value="eur">EUR</option>
-        <option value="try">TRY</option>
-        <option value="irr">IRR</option>
-      </select>
-
-      <button id="convertBtn">Convert</button>
-
-      <div class="result" id="result">Choose crypto and fiat, then click Convert</div>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Tether USD (USDT)</h1>
+      <p>The most trusted stablecoin on Binance Smart Chain.</p>
+      <a href="https://pancakeswap.finance/swap" target="_blank" class="btn-primary">Trade on PancakeSwap</a>
     </div>
-  </main>
+  </section>
 
-  <footer>
-    © 2025 Tether USD Project — Built on Binance Smart Chain | Powered by CoinGecko API
+  <section id="about" class="section">
+    <h2>About Tether USD</h2>
+    <p>Tether USD (USDT) is a BEP-20 stablecoin pegged 1:1 to the US Dollar. It ensures stability, liquidity, and transparency within the DeFi ecosystem on Binance Smart Chain.</p>
+  </section>
+
+  <section id="tokenomics" class="section">
+    <h2>Token Information</h2>
+    <ul>
+      <li><strong>Name:</strong> Tether USD</li>
+      <li><strong>Symbol:</strong> USDT</li>
+      <li><strong>Network:</strong> Binance Smart Chain (BEP20)</li>
+      <li><strong>Contract:</strong> <span id="contract">0xBb7e20348fCFD959e314747873b41d51Ef1f3474</span> <button id="copy">Copy</button></li>
+      <li><strong>Total Supply:</strong> 100,000,000 USDT</li>
+    </ul>
+  </section>
+
+  <section id="exchange" class="section">
+    <h2>Live Market Data</h2>
+    <p id="price">Loading live price...</p>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© 2025 Tether USD — All Rights Reserved.</p>
+      <p>
+        <a href="https://bscscan.com/token/0xBb7e20348fCFD959e314747873b41d51Ef1f3474" target="_blank">BscScan</a> |
+        <a href="https://github.com/yyoutoone-art/TetherUSD" target="_blank">GitHub</a> |
+        <a href="https://www.coingecko.com/en/coins/tether" target="_blank">CoinGecko</a>
+      </p>
+    </div>
   </footer>
 
   <script src="script.js"></script>

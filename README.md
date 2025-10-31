@@ -14,3 +14,6 @@ This is the official information page for the Tether USD (USDT) token on Binance
 > Requesting re-review. No functional changes.
 >
 > docs: request re-review (no functional changes)
+>
+> Testing logo placement for review.
+
